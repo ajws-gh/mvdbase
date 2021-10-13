@@ -1,0 +1,21 @@
+{% extends 'main.html' %}
+
+{% block title %}Delete {{ user }}{% endblock %}
+
+{% block page %}
+
+
+<div class="text-center pt-5">
+    <h2><b>{{ user }}</b>, are you sure you want to remove your account?</h2>
+    <small class="text-muted">Please note: Along with your account, all data connected with this profile will be removed!</small><br><br>
+
+    <form method='POST' enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form }}
+        <br>
+        <button type="submit" class="btn btn-danger">Delete</button>
+    </form>
+</div>
+
+
+{% endblock %}

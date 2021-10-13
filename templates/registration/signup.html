@@ -1,0 +1,28 @@
+{% extends 'main.html' %}
+
+{% block title %}Sign Up{% endblock %}
+
+{% block page %}
+
+<div class="row-center pt-5">
+    <div class="col-lg-6 offset-lg-3">
+        <h2 class="text-center pb-4">Sign Up!</h2>
+        <form method="post">
+            {% csrf_token %}
+            {% if form.non_field_errors %}
+            <div class="alert alert-danger">{{ form.non_field_errors }}</div>
+            {% endif %}
+            {% load widget_tweaks %}
+            {% for field in form %}
+            <div class="form-group {% if field.errors %}alert alert-danger{% endif %}">
+                {{ field.errors }}
+                <b>{{ field.label_tag }}</b><br>
+                {% if field.help_text %}<small class="text-muted">{{ field.help_text|safe }}</small>{% endif %}
+                {% render_field field class="form-control" %}<br>
+            </div>
+            {% endfor %}
+            <button type="submit" class="btn btn-secondary">Sign Up</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

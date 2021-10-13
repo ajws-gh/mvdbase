@@ -1,0 +1,103 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block title %}All Movies{% endblock %}
+
+
+{% block page %}
+
+<div class="img_container">
+    <img src="{% static 'movies1.jpg' %}" alt="movies image" class="img-fluid d-block main_img_size">
+    <div class="centered">
+        <div class="d-none d-lg-block"><h1 class="orange_color pl_font display-4">Click to add your own movie!</h1></div>
+        <a href="{% url 'add_movie' %}" class="btn orange_radius_btn"><h1 class="pl_font display-5">Add Movie!</h1></a>
+    </div>
+</div>
+
+{% for movie in movies %}
+<div class="card card_background mt-4 pt-4">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-2">
+                {% if movie.poster %}
+                    <img class="img-thumbnail img_displayed movie_img_width mt-3" src="{{ movie.poster.url }}">
+                {% endif %}
+            </div>
+            <div class="col-md-5">
+                <a href="{% url 'movie_details' movie.id %}"><h1 class="card-title text-center pl_font pt-3">{{ movie }}</h1><br></a>
+                <div class="top-right">
+            {% if movie.user == user %}
+            <a type="button" class="btn d-inline me-1 orange_color_bg"
+               data-bs-toggle="tooltip"
+               data-bs-placement="right" title="Edit Movie" href="{% url 'edit_movie' movie.id %}">
+                <i class="far fa-edit"></i>
+            </a>
+            <a type="button" class="btn d-inline me-1 orange_color_bg"
+               data-bs-toggle="tooltip"
+               data-bs-placement="right" title="Delete Movie" href="{% url 'delete_movie' movie.id %}">
+                <i class="far fa-trash-alt"></i>
+            </a>
+            {% endif %}
+            <a type="button" class="btn d-inline me-1 orange_color_bg"
+               data-bs-toggle="tooltip"
+               data-bs-placement="right" title="Movie Details" href="{% url 'movie_details' movie.id %}">
+                <i class="fas fa-info"></i>
+            </a>
+            <a type="button" class="btn d-inline me-1 orange_color_bg"
+               data-bs-toggle="tooltip"
+               data-bs-placement="right" title="Movie Reviews" href="{% url 'movie_reviews' movie.id %}">
+                <i class="far fa-star"></i>
+            </a>
+        </div>
+                <p class="card-text">{{ movie.description|truncatewords:20 }}</p>
+                {% if movie.ratings %}
+                <h4 class="orange_color top-left pl_font">Rating: {{ movie.ratings }}/5</h4>
+                {% endif %}
+            </div>
+            <div class="col-md-5 ">
+                <iframe class="img-responsive pt-3" width="100%" height="100%" src="https://www.youtube.com/embed/{{ movie.yt_id }}"
+                    title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+                </iframe>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+{% endfor %}
+
+<nav aria-label="Page navigation example" class="pt-5">
+    <ul class="pagination justify-content-center">
+        {% if movies.has_previous %}
+        <li class="page-item">
+            <a class="page-link orange_color" href="?page={{ movies.previous_page_number }}">Previous</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+        </li>
+        {% endif %}
+        {% for i in movies.paginator.page_range %}
+        {% if movies.number == i %}
+        <li class="page-item active" aria-current="page">
+              <span class="page-link pagination_style">
+                {{ i }}
+                <span class="sr-only">(current)</span>
+              </span>
+        </li>
+        {% else %}
+        <li class="page-item"><a class="page-link orange_color" href="?page={{ i }}">{{ i }}</a></li>
+        {% endif %}
+        {% endfor %}
+        {% if movies.has_next %}
+        <li class="page-item">
+            <a class="page-link orange_color" href="?page={{ movies.next_page_number }}">Next</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Next</a>
+        </li>
+        {% endif %}
+    </ul>
+</nav>
+
+{% endblock %}

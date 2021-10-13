@@ -1,0 +1,109 @@
+{% extends 'main.html' %}
+{% load bootstrap %}
+{% block title %}Actor Details{% endblock %}
+
+
+{% block page %}
+
+<div class="jumbotron jumbotron-fluid card_background mt-5 px-3 py-3">
+<div class="container">
+    <h1 class="pl_font display-4 text-center orange_color">{{ object }}</h1><br>
+    <div class="d-flex justify-content-end">
+        {% if object.user == user %}
+        <a type="button" class="btn d-inline me-1 orange_color_bg" data-bs-toggle="tooltip" data-bs-placement="right"
+           title="Edit Actor" href="{% url 'edit_actor' object.id %}"><i class="far fa-edit"></i>
+        </a>
+        <a type="button" class="btn d-inline me-1 orange_color_bg" data-bs-toggle="tooltip" data-bs-placement="right"
+           title="Delete Actor" href="{% url 'delete_actor' object.id %}"><i class="far fa-trash-alt"></i>
+        </a>
+        {% endif %}
+        <a type="button" class="btn d-inline me-1 orange_color_bg" data-bs-toggle="tooltip" data-bs-placement="right"
+           title="Actor Reviews" href="{% url 'actor_reviews' object.id %}"><i class="far fa-star"></i>
+        </a>
+    </div>
+    <div class="row pt-3">
+        <div class="col-md-7">
+            {% if object.image %}
+            <img class="img-thumbnail details_img me-4" src="{{ object.image.url }}">
+            {% endif %}
+            <p class="ww">{{ object.description }}</p>
+        </div>
+        <div class="col-md-5">
+            <div class="d-flex justify-content-center">
+                <div class="card card_background actor_details_movies_card">
+                    <div class="card-title text-center pt-2"><h1 class="pl_font">Movies</h1></div>
+                    <div class="row card-body">
+                        {% for movie in object.movie.all %}
+                        <div class="col-md-6">
+                            <a href="{% url 'movie_details' movie.id %}"><h5>{{ movie }}</h5></a>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<h1 class="pl_font text-center pt-4">{{ object }} Details</h1><br>
+<div class="row">
+    <div class="col-sm-6">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col-md-7"><b>Name:</b></div>
+                    <div class="col-md-5">{{ object.name }}</div>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col-md-7"><b>Surname:</b></div>
+                    <div class="col-md-5">{{ object.surname }}</div>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col-md-7"><b>Birthday:</b></div>
+                    <div class="col-md-5">{{ object.birthday }}</div>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col-md-7"><b>Filmweb Rating:</b></div>
+                    <div class="col-md-5">{{ object.Filmweb_rating }}</div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="col-sm-6">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col-md-7"><b>MDbase Rating:</b></div>
+                    <div class="col-md-5">{{ object.ratings }} {% if object.ratings %}/5{% endif %}</div>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col-md-7"><b>Nr of reviews:</b></div>
+                    <div class="col-md-5">{{ object.rating.count }}</div>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col-md-7"><b>Added:</b></div>
+                    <div class="col-md-5">{{ object.added }}</div>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col-md-7"><b>Added by:</b></div>
+                    <div class="col-md-5">{{ object.user }}</div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+
+{% endblock %}

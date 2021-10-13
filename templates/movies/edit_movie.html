@@ -1,0 +1,83 @@
+{% extends 'main.html' %}
+{% load bootstrap %}
+{% block title %}Edit Movie{% endblock %}
+
+
+{% block page %}
+
+<div class="row pt-5">
+    <div class="col-md-4">
+        <h2 class="pl_font display-4 text-center pb-4">Edit <a href="{% url 'movie_details' object.id %}"> {{ object }}</a></h2>
+        <form method='POST' enctype="multipart/form-data">
+            {% csrf_token %}
+            {% if form.non_field_errors %}
+            <div class="alert alert-danger">{{ form.non_field_errors }}</div>
+            {% endif %}
+            {% load widget_tweaks %}
+            {% for field in form %}
+            <div class="form-group {% if field.errors %}alert alert-danger{% endif %}">
+                <script>
+                $(function () {
+                    $("#id_premiere").datepicker({
+                     format:'yyyy-mm-dd',
+                    });
+                });
+                </script>
+                {{ field.errors }}
+                <b>{{ field.label_tag }}</b><br>
+                {% if field.help_text %}<small class="text-muted">{{ field.help_text|safe }}</small>{% endif %}
+                {% render_field field class="form-control" %}<br>
+            </div>
+            {% endfor %}
+            <button type="submit" class="btn btn-secondary">Update</button>
+        </form>
+    </div>
+<div class="col-md-8">
+        <h2 class="pl_font display-4 text-center">Search for trailer on <a href="https://www.youtube.com">
+            <i class="fab fa-youtube orange_color">YouTube</i></a>
+        </h2>
+        <div class="center text-center">
+            <small class="text-muted">Please note: Not every YouTube video can be displayed on this website</small>
+            <form method="get">
+                <input class="form-control me-2 mt-4" placeholder="&#xF002; Search" style="font-family:Arial, FontAwesome"
+                       aria-label="Search" id="id_search_term">
+            </form>
+        </div>
+        <div id="search_results" class="text-center pt-5"></div>
+    </div>
+    <script>
+    var delayTimer;
+    $('#id_search_term').keyup(function() {
+        clearTimeout(delayTimer);
+        $('#search_results').text('Loading...');
+        delayTimer = setTimeout(function() {
+            var text = $('#id_search_term').val();
+            $.ajax({
+                url: '/video/search',
+                data: {
+                    'search_term': text
+                },
+                dataType: 'json',
+                success: function(data) {
+                    var results = ''
+                    $('#search_results').text('');
+                        results += '<div class="row">'
+                        data['items'].forEach(function(video) {
+                        results += '<div class="col-md-4 mt-3"><div class="card mb-4 shadow-sm">';
+                        results += '<iframe width="100%" height="225" src="https://www.youtube.com/embed/' + video['id']['videoId'] + '"title="YouTube video player" frameborder="0"allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope;picture-in-picture" allowfullscreen></iframe>';
+                        results += '<div class="card-body"><p class="card-text">' + video['snippet']['title'] + '</p>';
+                        results += '<a class="btn btn-secondary" onclick="addVideo(\'' + video['id']['videoId'] + '\')">Add</a></div></div></div>';
+                    });
+                	results += '</div>'
+                	$('#search_results').append(results);
+                }
+            });
+        }, 1000);
+    });
+    function addVideo(video_id) {
+        $('#id_yt_url').val('https://www.youtube.com/watch?v=' + video_id);
+    }
+    </script>
+</div>
+
+{% endblock %}

@@ -1,0 +1,71 @@
+{% extends 'main.html' %}
+
+{% block title %}{{ user }}'s Dashboard{% endblock %}
+
+
+{% block page %}
+
+<div class="row pt-5 mt-5">
+    <div class="col-sm-5">
+        <h1 class="pl_font display-4 text-center orange_color">{{ user }}</h1><br>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col-md-7"><b>First Name:</b></div>
+                    <div class="col-md-5">{{ user.first_name|title }}</div>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col-md-7"><b>Last Name:</b></div>
+                    <div class="col-md-5">{{ user.last_name }}</div>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col-md-7"><b>Email:</b></div>
+                    <div class="col-md-5">{{ user.email }}</div>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col-md-7"><b>Joined:</b></div>
+                    <div class="col-md-5">{{ user.date_joined }}</div>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col-md-7"><b>Last login:</b></div>
+                    <div class="col-md-5">{{ user.last_login }}</div>
+                </div>
+            </li>
+        </ul>
+        <div class="row pt-4 pb-4">
+            <div class="col md-6 d-flex justify-content-center">
+                <a href="{% url 'delete_user' user.id %}" class="btn btn-danger">Delete Account</a>
+            </div>
+            <div class="col md-6 d-flex justify-content-center">
+                <a href="{% url 'password_change' %}" class="btn btn-secondary">Change Password</a>
+            </div>
+</div>
+    </div>
+    <div class="col-md-5 offset-md-1">
+        <h1 class="pl_font display-4 text-center orange_color pb-3">Added by you</h1>
+        <div class="row">
+            <div class="col-md-6 pb-3">
+                <h3 class="text-center pl_font pb-2">Movies:</h3>
+                {% for movie in movies %}
+                    <a class="text-center" href="{% url 'movie_details' movie.id %}"><h4>{{ movie }}</h4></a>
+                {% endfor %}
+            </div>
+            <div class="col-md-6 pb-3">
+                <h3 class="text-center pl_font pb-2">Actors:</h3>
+                {% for actor in actors %}
+                    <a class="text-center" href="{% url 'actor_details' actor.id %}"><h4>{{ actor }}</h4></a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

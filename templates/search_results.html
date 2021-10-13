@@ -1,0 +1,120 @@
+{% extends 'main.html' %}
+
+{% block title %}Search Results {% endblock %}
+
+{% block page %}
+
+{% if movies and actors %}
+<div class="row pt-3">
+    <div class="col-lg-6">
+        {% if actors %}
+            <h1 class="pl_font text-center pt-5 pb-5 display-3">ACTORS</h1>
+        {% endif %}
+        {% for actor in actors %}
+        <div class="card max_width_100 mb-2 mt-2">
+            <div class="card-body card_background">
+                <a href="{% url 'actor_details' actor.id %}"><h1 class="text-center pl_font pb-3 pt-3">{{ actor }}</h1></a>
+                <div class="row">
+                    <div class="col-5">
+                        {% if actor.image %}
+                        <img class="img-thumbnail d-flex justify-content-center" src="{{ actor.image.url }}">
+                        {% endif %}
+                    </div>
+                    <div class="col-7">
+                        <br>
+                        <p class="card-text">{{ actor.description }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="col-lg-6">
+        {% if movies %}
+            <h1 class="pl_font text-center pt-5 pb-5 display-3">MOVIES</h1>
+        {% endif %}
+        {% for movie in movies %}
+        <div class="card max_width_100 mb-2 mt-2">
+            <div class="card-body card_background">
+                <a href="{% url 'movie_details' movie.id %}"><h1 class="card-title text-center pl_font pb-3 pt-3">{{ movie }}</h1></a>
+                <div class="row">
+                    <div class="col-lg-5">
+                        {% if movie.poster %}
+                        <img class="img-thumbnail d-flex justify-content-center" src="{{ movie.poster.url }}">
+                        {% endif %}
+                    </div>
+                    <div class="col-lg-7">
+                        <br>
+                        <p class="card-text">{{ movie.description }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% elif movies or actors %}
+    <div class="row">
+        <div class="col-8 offset-2">
+            {% if movies %}
+            <h1 class="pl_font text-center pt-5 pb-5 display-3">MOVIES</h1>
+            {% endif %}
+            {% for movie in movies %}
+        <div class="card mb-2 mt-2">
+            <div class="card-body card_background">
+                <a href="{% url 'movie_details' movie.id %}"><h3 class="card-title text-center pb-3 pt-3 pl_font">{{ movie }}</h3></a>
+                <div class="row">
+                    <div class="col-lg-5">
+                        {% if movie.poster %}
+                        <img class="img-thumbnail d-flex justify-content-center" src="{{ movie.poster.url }}">
+                        {% endif %}
+                    </div>
+                    <div class="col-lg-7">
+                        <br>
+                        <p class="card-text">{{ movie.description }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        {% if actors %}
+            <h1 class="pl_font text-center pt-5 pb-5 display-3">ACTORS</h1>
+        {% endif %}
+        {% for actor in actors %}
+        <div class="card max_width_100 mb-2 mt-2">
+            <div class="card-body card_background">
+                <a href="{% url 'actor_details' actor.id %}"><h3 class="text-center pl_font pb-3 pt-3">{{ actor }}</h3></a>
+                <div class="row">
+                    <div class="col-lg-5">
+                        {% if actor.image %}
+                        <img class="img-thumbnail d-flex justify-content-center" src="{{ actor.image.url }}">
+                        {% endif %}
+                    </div>
+                    <div class="col-lg-7">
+                        <br>
+                        <p class="card-text">{{ actor.description }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        </div>
+
+    </div>
+
+{% endif %}
+
+{% if not actors and not movies %}
+    <h1 class="display-1 text-center pt-5">No results</h1>
+{% endif %}
+
+
+{% endblock %}
+
+
+
+
+
+
+

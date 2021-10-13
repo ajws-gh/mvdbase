@@ -1,0 +1,129 @@
+{% extends 'main.html' %}
+{% load bootstrap %}
+{% block title %}Reviews{% endblock %}
+{% load static %}
+
+{% block page %}
+
+<h1 class="text-center pt-5 pb-5 display-3 orange_color pl_font"><a href="{% url 'actor_details' actor.id %}">
+    {{ actor.name }} {{ actor.surname }}</a></h1>
+
+
+{% if not user.is_authenticated %}
+
+<div class="jumbotron text-center">
+    <h1 class="display-5 pb-3">You must be logged in to add reviews!</h1>
+    <h4 class="pb-5">Please Log In <a class="btn btn-secondary" href="{% url 'login' %}?next=/actors/actor_reviews/{{ actor.id }}"
+        role="button">Log In</a><br>or<br>Create your account<a class="btn btn-secondary"
+        href="{% url 'signup' %}" role="button">Sign Up</a></h4>
+</div>
+    {% if not user.is_authenticated and reviews %}
+        <h1 class="pl_font text-center pb-5 display-5">Reviews</h1>
+        <ul class="list-group">
+            {% for review in reviews %}
+            <li class="list-group-item mt-1">
+                <div class="row pt-2">
+                    <div class="col-6">
+                        {% with ''|center:review.rating as range %}
+                            <h4 class="d-inline pl_font">Rating:</h4>
+                        {% for _ in range %}
+                            <img src="{% static 'logo-bg-removed_30x30.png' %}" class="rating_img_size">
+                        {% endfor %}
+                        {% endwith %}
+                    </div>
+                    <div class="col-2 offset-4">
+                        {% if review.user == user %}
+                        <a type="button" class="btn orange_color_bg" data-bs-toggle="tooltip"
+                           data-bs-placement="right" title="Delete Review" href="{% url 'delete_reviews' review.id %}">
+                            <i class="far fa-trash-alt"></i>
+                        </a>
+                        {% endif %}
+                    </div>
+                    <p class="pt-2 ww">{{ review.review }}</p>
+                    <p class="text-end"> {{ review.added }}</p>
+                </div>
+            </li>
+        </ul>
+        {% endfor %}
+    {% endif %}
+{% endif %}
+
+
+{% if user.is_authenticated and not reviews %}
+        <div class="row pt-5">
+            <div class="col-md-8 offset-md-2">
+                <h1 class="pl_font text-center pb-3">Add Review!</h1>
+                <form method='POST' enctype="multipart/form-data">
+                {% csrf_token %}
+                {% if form.non_field_errors %}
+                <div class="alert alert-danger">{{ form.non_field_errors }}</div>
+                {% endif %}
+                {% load widget_tweaks %}
+                {% for field in form %}
+                <div class="form-group {% if field.errors %}alert alert-danger{% endif %}">
+                    {{ field.errors }}
+                    <b>{{ field.label_tag }}</b><br>
+                    {% if field.help_text %}<small class="text-muted">{{ field.help_text|safe }}</small>{% endif %}
+                    {% render_field field class="form-control" %}<br>
+                </div>
+                {% endfor %}
+                <button type="submit" class="btn btn-secondary">Add</button>
+            </form>
+            </div>
+        </div>
+{% endif %}
+
+{% if user.is_authenticated and reviews %}
+<div class="row pt-5">
+    <div class="col-md-6">
+        <h1 class="pl_font text-center">Add Review!</h1>
+            <form method='POST' enctype="multipart/form-data">
+                {% csrf_token %}
+                {% if form.non_field_errors %}
+                <div class="alert alert-danger">{{ form.non_field_errors }}</div>
+                {% endif %}
+                {% load widget_tweaks %}
+                {% for field in form %}
+                <div class="form-group {% if field.errors %}alert alert-danger{% endif %}">
+                    {{ field.errors }}
+                    <b>{{ field.label_tag }}</b><br>
+                    {% if field.help_text %}<small class="text-muted">{{ field.help_text|safe }}</small>{% endif %}
+                    {% render_field field class="form-control" %}<br>
+                </div>
+                {% endfor %}
+                <button type="submit" class="btn btn-secondary">Add</button>
+            </form>
+    </div>
+    <div class="col-md-6">
+        <h1 class="pl_font text-center pb-2">Reviews</h1>
+        <ul class="list-group">
+            {% for review in reviews %}
+            <li class="list-group-item mt-1">
+                <div class="row pt-2">
+                    <div class="col-6">
+                        {% with ''|center:review.rating as range %}
+                            <h4 class="d-inline pl_font">Rating:</h4>
+                        {% for _ in range %}
+                            <img src="{% static 'logo-bg-removed_30x30.png' %}" class="rating_img_size">
+                        {% endfor %}
+                        {% endwith %}
+                    </div>
+                    <div class="col-2 offset-4">
+                        {% if review.user == user %}
+                        <a type="button" class="btn orange_color_bg" data-bs-toggle="tooltip"
+                           data-bs-placement="right" title="Delete Review" href="{% url 'delete_reviews' review.id %}">
+                            <i class="far fa-trash-alt"></i>
+                        </a>
+                        {% endif %}
+                    </div>
+                    <p class="pt-2 ww">{{ review.review }}</p>
+                    <p class="text-end"> {{ review.added }}</p>
+                </div>
+            </li>
+        </ul>
+         {% endfor %}
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}

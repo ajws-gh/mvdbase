@@ -1,0 +1,38 @@
+{% extends 'main.html' %}
+{% load bootstrap %}
+{% block title %}Add Actor{% endblock %}
+
+
+{% block page %}
+
+<div class="row-center pt-5">
+    <div class="col-md-4 offset-md-4">
+        <h1 class="pl_font display-4 text-center">Add Actor</h1><br>
+        <form method='POST' enctype="multipart/form-data">
+            {% csrf_token %}
+            {% if form.non_field_errors %}
+            <div class="alert alert-danger">{{ form.non_field_errors }}</div>
+            {% endif %}
+            {% load widget_tweaks %}
+            {% for field in form %}
+            <div class="form-group {% if field.errors %}alert alert-danger{% endif %}">
+                <script>
+                $(function () {
+                    $("#id_birthday").datepicker({
+                     format:'yyyy-mm-dd',
+                    });
+                });
+                </script>
+                {{ field.errors }}
+                <b>{{ field.label_tag }}</b><br>
+                {% if field.help_text %}<small class="text-muted">{{ field.help_text|safe }}</small>{% endif %}
+                {% render_field field class="form-control" %}<br>
+            </div>
+            {% endfor %}
+            <button type="submit" class="btn btn-secondary">Add</button>
+        </form>
+    </div>
+
+</div>
+
+{% endblock %}

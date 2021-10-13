@@ -1,0 +1,76 @@
+{% extends 'main.html' %}
+
+{% block title %}TOP5 Movies!{% endblock %}
+
+
+{% block page %}
+
+<h1 class="pl_font display-1 text-center pt-5 mt-5 pb-5">TOP 5 Movies</h1>
+<div class="d-flex justify-content-center">
+    <div>
+        {% for movie in movies %}
+        <h1 class="pl_font display-4">TOP {{ forloop.counter }}.</h1>
+        {% if forloop.counter == 1 %}
+            <div class="card mt-1 pt-4 mb-4 gold_bg max_width_900px">
+        {% endif %}
+        {% if forloop.counter == 2 %}
+            <div class="card mt-1 pt-4 mb-4 max_width_900px silver_bg">
+        {% endif %}
+        {% if forloop.counter == 3 %}
+            <div class="card mt-1 pt-4 mb-4 max_width_900px brown_bg">
+        {% endif %}
+        {% if forloop.counter > 3 %}
+            <div class="card mt-1 pt-4 mb-4 max_width_900px">
+        {% endif %}
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            {% if movie.poster %}
+                                <img class="img-thumbnail top_img_size mt-3" src="{{ movie.poster.url }}">
+                            {% endif %}
+                        </div>
+                        <div class="col-md-8">
+                            <a href="{% url 'movie_details' movie.id %}"><h1
+                                    class="card-title mt-3 text-center pl_font">{{ movie }} </h1></a> <br>
+                            <div class="top-right">
+                                {% if movie.user == user %}
+                                <a type="button" class="btn display-inline orange_color_bg"
+                                   data-bs-toggle="tooltip" data-bs-placement="right" title="Edit Movie"
+                                   href="{% url 'edit_movie' movie.id %}"><i class="far fa-edit"></i>
+                                </a>
+                                <a type="button" class="btn display-inline orange_color_bg"
+                                   data-bs-toggle="tooltip" data-bs-placement="right" title="Delete Movie"
+                                   href="{% url 'delete_movie' movie.id %}"><i class="far fa-trash-alt"></i>
+                                </a>
+                                {% endif %}
+                                <a type="button" class="btn display-inline orange_color_bg"
+                                   data-bs-toggle="tooltip" data-bs-placement="right" title="Movie Details"
+                                   href="{% url 'movie_details' movie.id %}"><i class="fas fa-info"></i>
+                                </a>
+                                <a type="button" class="btn display-inline orange_color_bg"
+                                   data-bs-toggle="tooltip" data-bs-placement="right" title="Movie Reviews"
+                                   href="{% url 'movie_reviews' movie.id %}"><i class="far fa-star"></i>
+                                </a>
+                            </div>
+                            <p class="card-text">{{ movie.description }}</p>
+                            <h4 class="pl_font mt-4">Actors:</h4>
+                            <div class="row">
+                                {% for actor in movie.actors.all %}
+                                <div class="col-md-3">
+                                    <a href="{% url 'actor_details' actor.id %}"><h6>{{ actor }}</h6></a>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            {% if movie.IMDB_rating %}
+                                <h4 class="top-left pl_font">Rating: {{ movie.IMDB_rating }}/10</h4>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+                <small class="text-muted">Based on IMDB ratings</small>
+        </div>
+    </div>
+
+{% endblock %}

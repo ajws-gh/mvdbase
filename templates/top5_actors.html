@@ -1,0 +1,89 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block title %}TOP5 Actors!{% endblock %}
+
+{% block page %}
+
+<h1 class="pl_font display-1 text-center pt-5 mt-5 pb-5">TOP 5 Actors</h1>
+<div class="d-flex justify-content-center">
+    <div>
+        {% for actor in actors %}
+        <h1 class="pl_font display-4">TOP{{ forloop.counter }}.</h1>
+        {% if forloop.counter == 1 %}
+            <div class="card mt-1 pt-4 mb-4 gold_bg max_width_900px">
+        {% endif %}
+        {% if forloop.counter == 2 %}
+            <div class="card mt-1 pt-4 mb-4 silver_bg max_width_900px">
+        {% endif %}
+        {% if forloop.counter == 3 %}
+            <div class="card mt-1 pt-4 mb-4 brown_bg max_width_900px">
+        {% endif %}
+        {% if forloop.counter > 3 %}
+            <div class="card mt-1 pt-4 mb-4 max_width_900px">
+        {% endif %}
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-4 ">
+                            {% if actor.image %}
+                            <img class="img-thumbnail top_img_size mt-3" src="{{ actor.image.url }}">
+                            {% endif %}
+                        </div>
+                        <div class="col-sm-8">
+                            <a href="{% url 'actor_details' actor.id %}"><h1 class="card-title mt-3 text-center pl_font">{{ actor }} </h1></a><br>
+                            <div class="top-right">
+                                {% if actor.user == user %}
+                                <a type="button"
+                                   class="btn d-inline orange_color_bg"
+                                   data-bs-toggle="tooltip"
+                                   data-bs-placement="right" title="Edit Actor"
+                                   href="{% url 'edit_actor' actor.id %}">
+                                    <i class="far fa-edit"></i>
+                                </a>
+                                <a type="button"
+                                   class="btn d-inline orange_color_bg"
+                                   data-bs-toggle="tooltip"
+                                   data-bs-placement="right" title="Delete Actor"
+                                   href="{% url 'delete_actor' actor.id %}">
+                                    <i class="far fa-trash-alt"></i>
+                                </a>
+                                {% endif %}
+                                <a type="button"
+                                   class="btn d-inline orange_color_bg"
+                                   data-bs-toggle="tooltip"
+                                   data-bs-placement="right" title="Actor Details"
+                                   href="{% url 'actor_details' actor.id %}">
+                                    <i class="fas fa-info"></i>
+                                </a>
+                                <a type="button"
+                                   class="btn d-inline orange_color_bg"
+                                   data-bs-toggle="tooltip"
+                                   data-bs-placement="right" title="Actor Reviews"
+                                   href="{% url 'actor_reviews' actor.id %}">
+                                    <i class="far fa-star"></i>
+                                </a>
+
+                            </div>
+                            <p class="card-text">{{ actor.description }}</p>
+
+                            <h4 class="pl_font mt-4">Movies:</h4>
+                            <div class="row">
+                                {% for movie in actor.movie.all %}
+                                <div class="col-md-3">
+                                    <a href="{% url 'movie_details' movie.id %}"><h6>{{ movie }}</h6></a>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            {% if actor.Filmweb_rating %}
+                                <h4 class="top-left pl_font">Rating: {{ actor.Filmweb_rating }}/10</h4>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+                <small class="text-muted">Based on FILMWEB ratings</small>
+            </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,130 @@
+{% extends 'main.html' %}
+
+{% block title %}Movie Details{% endblock %}
+
+
+{% block page %}
+
+<div class="jumbotron jumbotron-fluid card_background px-3 py-3 mt-5">
+  <div class="container">
+    <h1 class="pl_font display-4 text-center orange_color">{{ movie.title }}</h1>
+      <div class="d-flex justify-content-end">
+        {% if object.user == user %}
+        <a type="button" class="btn d-inline me-1 orange_color_bg" data-bs-toggle="tooltip" data-bs-placement="right"
+           title="Edit Movie" href="{% url 'edit_movie' object.id %}"><i class="far fa-edit"></i>
+        </a>
+        <a type="button" class="btn d-inline me-1 orange_color_bg" data-bs-toggle="tooltip" data-bs-placement="right"
+           title="Delete Movie" href="{% url 'delete_movie' object.id %}"><i class="far fa-trash-alt"></i>
+        </a>
+        {% endif %}
+        <a type="button" class="btn d-inline me-1 orange_color_bg" data-bs-toggle="tooltip" data-bs-placement="right"
+           title="Movie Reviews" href="{% url 'movie_reviews' object.id %}"><i class="far fa-star"></i>
+        </a>
+    </div>
+<div class="row">
+    <div class="col-md-6">
+        {% if movie.poster %}
+        <img class="img-thumbnail details_img me-4" src="{{ object.poster.url }}">
+        {% endif %}
+        <h2 class="text-center pl_font pt-3 pb-3">Plot</h2>
+        <p class="ww" >{{ movie.description }}</p>
+    </div>
+    <div class="col-md-6">
+        <div class="card card_background no_border">
+            <div class="card-title pt-3"><h2 class="pl_font text-center">Trailer</h2></div>
+            <div class="card-body d-flex justify-content-center"><iframe width="450" height="300" src="https://www.youtube.com/embed/{{ movie.yt_id }}"
+                title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+  </div>
+</div>
+</div>
+<h1 class="pl_font text-center pt-4">{{ movie }} Details</h1><br>
+<div class="row">
+    <div class="col-sm-6">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col-md-7"><b>Title:</b></div>
+                    <div class="col-md-5">{{ movie.title }}</div>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col-md-7"><b>Premiere:</b></div>
+                    <div class="col-md-5">{{ movie.premiere }}</div>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col-md-7"><b>IMDB Rating:</b></div>
+                    <div class="col-md-5">{{ movie.IMDB_rating }}</div>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col-md-7"><b>MDbase Rating:</b></div>
+                    <div class="col-md-5">{{ movie.ratings }} {% if movie.ratings %}/5{% endif %}</div>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col-md-7"><b>Director:</b></div>
+                    <div class="col-md-5">{{ movie.director }}</div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="col-sm-6">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col-md-7"><b>Film genre:</b></div>
+                    <div class="col-md-5">{{ movie.film_genre }}</div>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col-md-7"><b>Duration:</b></div>
+                    <div class="col-md-5">{{ movie.duration }}</div>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col-md-7"><b>Nr of reviews:</b></div>
+                    <div class="col-md-5">{{ movie.rating.count }}</div>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col-md-7"><b>Added:</b></div>
+                    <div class="col-md-5">{{ movie.added }}</div>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col-md-7"><b>Added by:</b></div>
+                    <div class="col-md-5">{{ movie.user }}</div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div class="d-flex justify-content-center">
+    <div class="card no_border width_75r">
+        <div class="card-title pt-5">
+            <h1 class="pl_font text-center">Actors</h1>
+        </div>
+        <div class="row card-body">
+            {% for actor in movie.actors.all %}
+            <div class="col-md-3">
+                <a href="{% url 'actor_details' actor.id %}"><h5>{{ actor }}</h5></a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

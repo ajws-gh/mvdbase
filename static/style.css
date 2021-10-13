@@ -1,0 +1,217 @@
+a:link {
+  color: black !important;
+  text-decoration: none !important;
+}
+
+a:visited {
+  color: black !important;
+  text-decoration: none !important;
+}
+
+a:hover {
+  color: #f16446 !important;
+  background-color: transparent !important;
+  text-decoration:  !important;
+}
+
+body {
+    font-family: 'Armata', sans-serif !important;
+}
+
+.center {
+  margin: auto;
+      width: 60%;
+}
+
+.md_nav_logo {
+    height:40px
+}
+
+.pagination_style {
+    background-color: #f16446 !important;
+    border-style: none !important
+}
+
+.email_message {
+    color:#49e3b0;
+}
+
+.max_width_100 {
+    max-width: 100%
+}
+
+.max_width_900px {
+    max-width: 900px;
+}
+
+.gold_bg {
+    background-color:#ffeb99 !important
+}
+
+.silver_bg {
+    background-color:#dddddd !important
+}
+
+.brown_bg {
+    background-color:#cc9b6d !important
+}
+
+.ww {
+    word-wrap: break-word
+}
+
+.main_img_size {
+    max-height:550px;
+    width:100%
+}
+
+.top_img_size {
+    width:300px;
+    height: 400px
+}
+
+.rating_img_size {
+    width:25px;
+    height: 25px
+}
+
+.details_img {
+    float:left;
+    width:200px !important;
+    height: 300px
+}
+
+.homepage_actor_img {
+    width:200px !important;
+    height: 250px !important
+}
+
+.no_border {
+    border-style: none !important
+}
+
+.width_75r {
+    width: 75rem;
+}
+
+.actor_details_movies_card {
+    width: 25rem !important;
+    margin-top:30px !important;
+    border-style: none !important
+}
+
+.card_actors_size {
+    max-width: 600px;
+    min-height:350px !important
+}
+
+.movie_img_width {
+    width:175px
+}
+
+.card_actors_img {
+    width:150px;
+    height: 200px;
+    margin-bottom :30px
+}
+
+.img_container {
+  position: relative;
+  text-align: center;
+  color: white;
+}
+
+/* Top left text */
+.top-left {
+  position: absolute;
+  top: 8px;
+  left: 16px;
+}
+
+/* Top right text */
+.top-right {
+  position: absolute;
+  top: 8px;
+  right: 16px;
+}
+
+/* Centered text */
+.centered {
+  position: absolute;
+  top: 25%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@font-face {
+    font-family: 'Playlist';
+    font-style: normal;
+    font-weight: bold;
+    src: local('Playlist'), url('/static/fonts/Playlist-Caps500.otf') format('opentype');
+}
+
+.pl_font {
+    font-family:Playlist;
+}
+
+.orange_radius_btn {
+    border-radius: 25% !important;
+    background-color: #f16446 !important;
+}
+
+.orange_color {
+    color: #f16446 !important;
+}
+
+.orange_color_bg {
+    border-style: none !important;
+    background-color: #f16446 !important;
+}
+
+.img_displayed {
+    display: block;
+    margin-left: auto;
+    margin-right: auto }
+
+.card_background {
+    background-color: #f0f0f0 !important;
+}
+
+#page-container {
+  position: relative;
+  min-height: 100vh;
+}
+
+#content-wrap {
+  padding-bottom: 5.5rem;    /* Footer height */
+}
+
+#footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 5.5rem;            /* Footer height */
+}
+
+#loading {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  opacity: 0.7;
+  background-color: #fff;
+  z-index: 99;
+}
+
+#loading-image {
+  z-index: 100;
+}
+
+.spinner_size {
+   width: 7rem !important;
+   height: 7rem !important
+}
